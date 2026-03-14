@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>38 Steaks — Birthday Cook-Off</title>
+  <style>
+    :root {
+      --fire: #e8420a;
+      --ember: #c0390a;
+      --gold: #f5a623;
+      --cream: #fdf6ec;
+      --dark: #1a0e07;
+      --charcoal: #2d1e12;
+      --mid: #5c3a1e;
+      --light: #9b7348;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: var(--dark);
+      color: var(--cream);
+      min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    header {
+      position: relative;
+      text-align: center;
+      padding: 4rem 1rem 3rem;
+      background: radial-gradient(ellipse at 50% 0%, #6b2800 0%, var(--dark) 70%);
+      border-bottom: 3px solid var(--fire);
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(232,66,10,.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(232,66,10,.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .flame-row {
+      font-size: 2.4rem;
+      letter-spacing: .25rem;
+      line-height: 1;
+      margin-bottom: .5rem;
+      animation: flicker 1.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes flicker {
+      0%   { opacity: .85; transform: scaleX(1); }
+      50%  { opacity: 1;   transform: scaleX(1.03); }
+      100% { opacity: .9;  transform: scaleX(.98); }
+    }
+
+    h1 {
+      font-size: clamp(3rem, 10vw, 7rem);
+      font-weight: 900;
+      letter-spacing: -.02em;
+      line-height: 1;
+      background: linear-gradient(160deg, #fff 0%, var(--gold) 55%, var(--fire) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: none;
+    }
+
+    .tagline {
+      margin-top: 1rem;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: var(--gold);
+      font-style: italic;
+      letter-spacing: .05em;
+    }
+
+    .birthday-badge {
+      display: inline-block;
+      margin-top: 1.5rem;
+      background: var(--fire);
+      color: #fff;
+      padding: .45rem 1.4rem;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: bold;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      box-shadow: 0 0 24px rgba(232,66,10,.6);
+    }
+
+    /* ── LAYOUT ── */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 1.25rem 5rem;
+    }
+
+    /* ── SECTION HEADINGS ── */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      font-size: 1.75rem;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--mid);
+      padding-bottom: .6rem;
+    }
+
+    .section-title .icon { font-size: 1.5rem; }
+
+    /* ── INTRO CARD ── */
+    .intro-card {
+      background: var(--charcoal);
+      border: 1px solid var(--mid);
+      border-radius: 12px;
+      padding: 1.75rem 2rem;
+      margin-bottom: 3rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #e8d5bb;
+    }
+
+    .intro-card strong { color: var(--gold); }
+
+    /* ── RULES GRID ── */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+    }
+
+    .rule-card {
+      background: var(--charcoal);
+      border: 1px solid var(--mid);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .rule-card:hover {
+      border-color: var(--fire);
+      box-shadow: 0 0 16px rgba(232,66,10,.25);
+    }
+
+    .rule-icon {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+      margin-top: .1rem;
+    }
+
+    .rule-text {
+      font-size: .97rem;
+      line-height: 1.6;
+      color: #dfc9aa;
+    }
+
+    .rule-text strong {
+      display: block;
+      color: var(--gold);
+      font-size: 1rem;
+      margin-bottom: .25rem;
+    }
+
+    /* ── JUDGING CALLOUT ── */
+    .judging-callout {
+      background: linear-gradient(135deg, #3d1200 0%, #1a0800 100%);
+      border: 2px solid var(--fire);
+      border-radius: 14px;
+      padding: 2rem 2.25rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      box-shadow: 0 0 40px rgba(232,66,10,.2);
+    }
+
+    .judging-callout h2 {
+      font-size: 1.6rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .criteria {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .criterion {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .4rem;
+    }
+
+    .criterion .big-icon { font-size: 2.8rem; }
+
+    .criterion span {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--cream);
+      letter-spacing: .05em;
+    }
+
+    .criterion small {
+      color: var(--light);
+      font-size: .82rem;
+    }
+
+    /* ── QUICK REFERENCE ── */
+    .quick-ref {
+      background: var(--charcoal);
+      border: 1px solid var(--mid);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .quick-ref table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .95rem;
+    }
+
+    .quick-ref th {
+      text-align: left;
+      color: var(--gold);
+      padding: .45rem .75rem;
+      border-bottom: 1px solid var(--mid);
+    }
+
+    .quick-ref td {
+      padding: .55rem .75rem;
+      color: #dfc9aa;
+      border-bottom: 1px solid #2d1e1266;
+      vertical-align: top;
+    }
+
+    .quick-ref tr:last-child td { border-bottom: none; }
+
+    .quick-ref td:first-child {
+      color: var(--light);
+      white-space: nowrap;
+      width: 40%;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      border-top: 1px solid var(--mid);
+      color: var(--light);
+      font-size: .88rem;
+    }
+
+    footer strong { color: var(--gold); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 500px) {
+      .rules-grid { grid-template-columns: 1fr; }
+      .intro-card, .judging-callout, .quick-ref { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="flame-row">🔥 🥩 🔥 🥩 🔥</div>
+    <h1>38 Steaks</h1>
+    <p class="tagline">A Birthday Cook-Off for the Ages</p>
+    <div class="birthday-badge">Happy Birthday &nbsp;🎂&nbsp; Official Cook-Off</div>
+  </header>
+
+  <main>
+
+    <!-- INTRO -->
+    <div class="intro-card">
+      Welcome to <strong>38 Steaks</strong> — a birthday celebration where the real gift is
+      <em>the perfect sear</em>. Competitors bring their best Canadian-raised protein, fire it up,
+      and let the flavors speak for themselves. No frills, no fuss — just <strong>flame, meat,
+      and glory</strong>.
+    </div>
+
+    <!-- JUDGING -->
+    <div class="judging-callout">
+      <h2>What Wins the Cook-Off?</h2>
+      <p style="color:#c4a87a; margin-bottom:1.25rem; font-size:.95rem;">
+        Judges score on <em>two things only</em>. Make them count.
+      </p>
+      <div class="criteria">
+        <div class="criterion">
+          <span class="big-icon">👅</span>
+          <span>Flavor</span>
+          <small>Seasoning, depth, complexity</small>
+        </div>
+        <div class="criterion">
+          <span class="big-icon">🍽️</span>
+          <span>Texture</span>
+          <small>Crust, tenderness, bite</small>
+        </div>
+      </div>
+      <p style="margin-top:1.25rem; color:#a07845; font-size:.85rem;">
+        Sides are not judged. Presentation is not judged. Just the steak.
+      </p>
+    </div>
+
+    <!-- RULES -->
+    <h2 class="section-title"><span class="icon">📋</span> Official Rules</h2>
+
+    <div class="rules-grid">
+
+      <div class="rule-card">
+        <div class="rule-icon">🇨🇦</div>
+        <div class="rule-text">
+          <strong>Protein</strong>
+          Canadian-raised beef, pork, game, or any non-meat alternative is permitted.
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-icon">⚖️</div>
+        <div class="rule-text">
+          <strong>Total Weight</strong>
+          Minimum <em>16 oz</em> prepared. No maximum — go big.
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-icon">🥩</div>
+        <div class="rule-text">
+          <strong>Portions</strong>
+          Multiple portions are allowed, but all must be <em>identical in cut and
+          preparation</em>. Doneness may vary between portions.
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-icon">📏</div>
+        <div class="rule-text">
+          <strong>Portion Size</strong>
+          Each individual portion may not exceed <em>48 oz</em>.
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-icon">🍳</div>
+        <div class="rule-text">
+          <strong>Sear Requirement</strong>
+          Every portion must be <em>seared on all sides</em>. No exceptions.
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-icon">📐</div>
+        <div class="rule-text">
+          <strong>Shape &amp; Thickness</strong>
+          <em>Slab-shaped:</em> no more than 2 inches thick.<br />
+          <em>Baseball-shaped:</em> no more than 3 inches thick.
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-icon">🧂</div>
+        <div class="rule-text">
+          <strong>Crust / Covering</strong>
+          Allowed, but must be ≤ ¼ inch thick and cover no more than 4 sides.
+          Exception: a single-side covering may be up to ½ inch thick.
+          May not be made of meat — <em>bacon excepted</em>.
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-icon">🔍</div>
+        <div class="rule-text">
+          <strong>Insertions / Stuffing</strong>
+          Anything inserted into the steak must be smaller than <em>½ tsp</em>
+          per insertion and may <em>not</em> be made of meat.
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-icon">🥣</div>
+        <div class="rule-text">
+          <strong>Sauce</strong>
+          One sauce on the side is permitted. Keep it saucy, not showy.
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-icon">🔪</div>
+        <div class="rule-text">
+          <strong>Slicing for Tasting</strong>
+          Steaks <em>must be sliced into bite-size pieces</em> before being
+          presented to judges.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- QUICK REFERENCE -->
+    <h2 class="section-title"><span class="icon">⚡</span> Quick Reference</h2>
+    <div class="quick-ref">
+      <table>
+        <thead>
+          <tr>
+            <th>Rule</th>
+            <th>Limit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Protein origin</td><td>Canadian-raised (or non-meat)</td></tr>
+          <tr><td>Total prepared weight</td><td>16 oz minimum, no max</td></tr>
+          <tr><td>Max portion weight</td><td>48 oz each</td></tr>
+          <tr><td>Slab thickness</td><td>≤ 2 inches</td></tr>
+          <tr><td>Baseball thickness</td><td>≤ 3 inches</td></tr>
+          <tr><td>Sear</td><td>All sides required</td></tr>
+          <tr><td>Crust thickness (general)</td><td>≤ ¼ inch, max 4 sides</td></tr>
+          <tr><td>Crust thickness (single side)</td><td>≤ ½ inch</td></tr>
+          <tr><td>Crust material</td><td>No meat (bacon allowed)</td></tr>
+          <tr><td>Insertions</td><td>&lt; ½ tsp, no meat</td></tr>
+          <tr><td>Sauce</td><td>1 on the side</td></tr>
+          <tr><td>Judging criteria</td><td>Flavor &amp; Texture only</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>🎂 <strong>38 Steaks</strong> — A Birthday to Remember &nbsp;|&nbsp; May the best steak win 🏆</p>
+  </footer>
+
+</body>
+</html>
