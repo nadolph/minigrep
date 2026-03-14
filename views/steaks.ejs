@@ -1,0 +1,35 @@
+<%- include('partials/header', { title: 'The Steaks' }) %>
+
+<main>
+  <h1 class="page-title">🥩 The Contestants</h1>
+
+  <% if (!steaks || steaks.length === 0) { %>
+    <div class="card" style="text-align:center;color:var(--light);padding:3rem">
+      No entries yet — be the first to <a href="/register" style="color:var(--gold)">register</a>!
+    </div>
+  <% } else { %>
+    <div class="steaks-grid">
+      <% steaks.forEach(steak => { %>
+        <div class="steak-card">
+          <% if (steak.image_filename) { %>
+            <img src="/uploads/<%= steak.image_filename %>" alt="<%= steak.name %>">
+          <% } else { %>
+            <div class="steak-placeholder">🥩</div>
+          <% } %>
+          <div class="steak-card-body">
+            <div class="steak-name"><%= steak.name %></div>
+            <div class="steak-contestant">by <%= steak.contestant %></div>
+            <% if (steak.description) { %>
+              <div class="steak-desc"><%= steak.description %></div>
+            <% } %>
+            <div style="margin-top:.75rem;color:var(--light);font-size:.82rem">
+              <%= steak.vote_count %> <%= steak.vote_count === 1 ? 'vote' : 'votes' %>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</main>
+
+<%- include('partials/footer') %>

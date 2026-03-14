@@ -1,0 +1,74 @@
+<%- include('partials/header', { title: 'Results' }) %>
+
+<main>
+  <h1 class="page-title">🏆 Leaderboard</h1>
+
+  <% if (!results || results.length === 0) { %>
+    <div class="card" style="text-align:center;color:var(--light);padding:3rem">
+      No votes yet — judging hasn't started!
+    </div>
+  <% } else { %>
+    <div class="card" style="overflow-x:auto">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Steak</th>
+            <th>By</th>
+            <th>Flavor</th>
+            <th>Texture</th>
+            <th>Overall</th>
+            <th>Votes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% results.forEach((r, i) => {
+            const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : '';
+            const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
+          %>
+          <tr>
+            <td class="rank <%= rankClass %>"><%= medal %></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:.6rem">
+                <% if (r.image_filename) { %>
+                  <img src="/uploads/<%= r.image_filename %>" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px;border:1px solid var(--mid)">
+                <% } else { %>
+                  <span style="font-size:1.5rem">🥩</span>
+                <% } %>
+                <span style="<%= rankClass ? 'color:inherit;font-weight:bold' : '' %>"><%= r.name %></span>
+              </div>
+            </td>
+            <td style="color:var(--light)"><%= r.contestant %></td>
+            <td>
+              <% if (r.avg_taste) { %>
+                <span class="score-pill"><%= r.avg_taste %></span>
+              <% } else { %>
+                <span style="color:var(--mid)">—</span>
+              <% } %>
+            </td>
+            <td>
+              <% if (r.avg_texture) { %>
+                <span class="score-pill"><%= r.avg_texture %></span>
+              <% } else { %>
+                <span style="color:var(--mid)">—</span>
+              <% } %>
+            </td>
+            <td>
+              <% if (r.avg_total) { %>
+                <span class="score-pill" style="<%= rankClass ? 'border-color:var(--fire);color:var(--gold)' : '' %>">
+                  <%= r.avg_total %>
+                </span>
+              <% } else { %>
+                <span style="color:var(--mid)">—</span>
+              <% } %>
+            </td>
+            <td style="color:var(--light)"><%= r.vote_count %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</main>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title + ' — ' : '' %>38 Steaks</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="/">🥩 38 Steaks</a>
+  <div class="nav-links">
+    <a href="/steaks">The Steaks</a>
+    <a href="/results">Results</a>
+    <% if (user) { %>
+      <a href="/dashboard">Dashboard</a>
+      <span class="nav-user">👤 <%= user %></span>
+      <form action="/logout" method="POST" style="display:inline">
+        <button class="btn-nav-outline" type="submit">Log Out</button>
+      </form>
+    <% } else { %>
+      <a href="/login">Log In</a>
+      <a href="/register" class="btn-nav-fire">Register</a>
+    <% } %>
+  </div>
+</nav>

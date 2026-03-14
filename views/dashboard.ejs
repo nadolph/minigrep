@@ -1,0 +1,145 @@
+<%- include('partials/header', { title: 'Dashboard' }) %>
+
+<main>
+  <h1 class="page-title">
+    <% if (role === 'contestant') { %>🥩 Your Steak Entry<% } else { %>👅 Taste & Vote<% } %>
+  </h1>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="alert alert-error"><%= error %></div>
+  <% } %>
+  <% if (typeof success !== 'undefined' && success) { %>
+    <div class="alert alert-success">✓ <%= success %></div>
+  <% } %>
+
+  <%# ─── CONTESTANT DASHBOARD ─── %>
+  <% if (role === 'contestant') { %>
+
+    <% if (stats && stats.count > 0) { %>
+      <div class="card" style="margin-bottom:1.5rem">
+        <h2 style="color:var(--gold);margin-bottom:1rem">Your Scores So Far</h2>
+        <div class="stat-row">
+          <div class="stat">
+            <div class="stat-value"><%= stats.avg_taste %></div>
+            <div class="stat-label">Avg Flavor /10</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value"><%= stats.avg_texture %></div>
+            <div class="stat-label">Avg Texture /10</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" style="color:var(--fire)"><%= stats.avg_total %></div>
+            <div class="stat-label">Overall /10</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" style="font-size:1.5rem"><%= stats.count %></div>
+            <div class="stat-label">Votes</div>
+          </div>
+        </div>
+      </div>
+    <% } %>
+
+    <div class="card">
+      <h2 style="color:var(--gold);margin-bottom:1.25rem">Edit Your Entry</h2>
+      <form method="POST" action="/my-steak" enctype="multipart/form-data">
+
+        <% if (steak && steak.image_filename) { %>
+          <img src="/uploads/<%= steak.image_filename %>" alt="Your steak" class="img-preview" id="img-preview">
+        <% } else { %>
+          <div class="steak-placeholder" style="height:200px;border-radius:8px;margin-bottom:1rem;border:1px dashed var(--mid)">
+            <span>📸</span>
+          </div>
+          <img src="" alt="" class="img-preview" id="img-preview" style="display:none">
+        <% } %>
+
+        <div class="form-group">
+          <label for="image">Steak Photo</label>
+          <input id="image" type="file" name="image" accept="image/*" onchange="previewImage(this)">
+          <small style="color:var(--light)">Max 8MB. JPG, PNG, WEBP accepted.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="name">Steak Name</label>
+          <input id="name" type="text" name="name" value="<%= steak ? steak.name : '' %>" placeholder="Give your steak a legendary name" maxlength="80">
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" placeholder="Tell people about your steak — the cut, your technique, secret touches..." maxlength="600"><%= steak ? steak.description : '' %></textarea>
+          <small style="color:var(--light)">Max 600 characters.</small>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Save Entry</button>
+      </form>
+    </div>
+
+  <%# ─── TASTER DASHBOARD ─── %>
+  <% } else { %>
+
+    <p style="color:var(--light);margin-bottom:1.75rem">
+      Rate each steak you've tasted. You can update your scores any time before judging closes.
+    </p>
+
+    <% if (!steaks || steaks.length === 0) { %>
+      <div class="card" style="text-align:center;color:var(--light);padding:3rem">
+        No contestants have registered yet. Check back soon!
+      </div>
+    <% } %>
+
+    <div class="steaks-grid">
+      <% steaks.forEach(steak => { %>
+        <div class="steak-card">
+          <% if (steak.image_filename) { %>
+            <img src="/uploads/<%= steak.image_filename %>" alt="<%= steak.name %>">
+          <% } else { %>
+            <div class="steak-placeholder">🥩</div>
+          <% } %>
+          <div class="steak-card-body">
+            <div class="steak-name"><%= steak.name %></div>
+            <div class="steak-contestant">by <%= steak.contestant %></div>
+            <% if (steak.description) { %>
+              <div class="steak-desc"><%= steak.description %></div>
+            <% } %>
+
+            <form method="POST" action="/vote/<%= steak.id %>" class="vote-form">
+              <div class="score-row">
+                <span class="score-label">👅 Flavor</span>
+                <input type="range" min="1" max="10" name="taste_score"
+                       value="<%= steak.my_taste || 5 %>" class="score-slider"
+                       oninput="this.nextElementSibling.textContent = this.value">
+                <span class="score-value"><%= steak.my_taste || 5 %></span>
+              </div>
+              <div class="score-row">
+                <span class="score-label">🍽️ Texture</span>
+                <input type="range" min="1" max="10" name="texture_score"
+                       value="<%= steak.my_texture || 5 %>" class="score-slider"
+                       oninput="this.nextElementSibling.textContent = this.value">
+                <span class="score-value"><%= steak.my_texture || 5 %></span>
+              </div>
+              <button class="btn btn-primary" type="submit" style="margin-top:.5rem;width:100%">
+                <%= steak.my_taste ? '✓ Update Vote' : 'Submit Vote' %>
+              </button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+  <% } %>
+</main>
+
+<script>
+function previewImage(input) {
+  const preview = document.getElementById('img-preview');
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+</script>
+
+<%- include('partials/footer') %>

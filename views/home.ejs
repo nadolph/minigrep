@@ -1,0 +1,107 @@
+<%- include('partials/header', { title: 'Welcome' }) %>
+
+<header class="hero">
+  <img src="/hero.jpg" alt="38 Steaks" class="hero-img" onerror="this.style.display='none';document.getElementById('hero-fallback').style.display='block'">
+  <div id="hero-fallback" style="display:none">
+    <div class="flame-row">🔥 🥩 🔥 🥩 🔥</div>
+    <h1 class="site-title">38 Steaks</h1>
+    <p class="tagline">A Birthday Cook-Off for the Ages</p>
+  </div>
+  <div class="hero-badges">
+    <span class="badge-fire">🎂 Birthday Cook-Off</span>
+    <% if (!user) { %>
+      <a href="/register" class="badge-register">Register to Compete or Taste →</a>
+    <% } else { %>
+      <a href="/dashboard" class="badge-register">Go to Dashboard →</a>
+    <% } %>
+  </div>
+</header>
+
+<main>
+
+  <div class="judging-callout">
+    <h2>What Wins?</h2>
+    <p class="callout-sub">Judges score on <em>two things only</em>. Make them count.</p>
+    <div class="criteria">
+      <div class="criterion">
+        <span class="big-icon">👅</span>
+        <span>Flavor</span>
+        <small>Seasoning, depth, complexity</small>
+      </div>
+      <div class="criterion">
+        <span class="big-icon">🍽️</span>
+        <span>Texture</span>
+        <small>Crust, tenderness, bite</small>
+      </div>
+    </div>
+    <p class="callout-note">Sides are not judged. Presentation is not judged. Just the steak.</p>
+  </div>
+
+  <h2 class="section-title"><span>📋</span> Official Rules</h2>
+  <div class="rules-grid">
+    <div class="rule-card">
+      <div class="rule-icon">🇨🇦</div>
+      <div class="rule-text"><strong>Protein</strong>Canadian-raised beef, pork, game, or any non-meat alternative.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">⚖️</div>
+      <div class="rule-text"><strong>Total Weight</strong>Minimum <em>16 oz</em> prepared. No maximum.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">🥩</div>
+      <div class="rule-text"><strong>Portions</strong>Multiple portions allowed — must be identical in cut and preparation. Doneness may vary.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">📏</div>
+      <div class="rule-text"><strong>Portion Size</strong>Each portion max <em>48 oz</em>.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">🍳</div>
+      <div class="rule-text"><strong>Sear Requirement</strong>Every portion must be <em>seared on all sides</em>.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">📐</div>
+      <div class="rule-text"><strong>Shape &amp; Thickness</strong><em>Slab:</em> ≤ 2 inches thick. <em>Baseball:</em> ≤ 3 inches thick.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">🧂</div>
+      <div class="rule-text"><strong>Crust / Covering</strong>≤ ¼ inch thick, max 4 sides. One side may be up to ½ inch. No meat except bacon.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">🔍</div>
+      <div class="rule-text"><strong>Insertions</strong>Anything inserted must be &lt; ½ tsp per insertion. No meat.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">🥣</div>
+      <div class="rule-text"><strong>Sauce</strong>One sauce on the side is permitted.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">🔪</div>
+      <div class="rule-text"><strong>Serving</strong>Steaks must be sliced into bite-size pieces for tasting.</div>
+    </div>
+  </div>
+
+  <h2 class="section-title" style="margin-top:2.5rem"><span>⚡</span> Quick Reference</h2>
+  <div class="card">
+    <table class="ref-table">
+      <thead><tr><th>Rule</th><th>Limit</th></tr></thead>
+      <tbody>
+        <tr><td>Protein origin</td><td>Canadian-raised (or non-meat)</td></tr>
+        <tr><td>Total prepared weight</td><td>16 oz minimum, no max</td></tr>
+        <tr><td>Max portion weight</td><td>48 oz each</td></tr>
+        <tr><td>Slab thickness</td><td>≤ 2 inches</td></tr>
+        <tr><td>Baseball thickness</td><td>≤ 3 inches</td></tr>
+        <tr><td>Sear</td><td>All sides required</td></tr>
+        <tr><td>Crust thickness (general)</td><td>≤ ¼ inch, max 4 sides</td></tr>
+        <tr><td>Crust thickness (single side)</td><td>≤ ½ inch</td></tr>
+        <tr><td>Crust material</td><td>No meat (bacon allowed)</td></tr>
+        <tr><td>Insertions</td><td>&lt; ½ tsp, no meat</td></tr>
+        <tr><td>Sauce</td><td>1 on the side</td></tr>
+        <tr><td>Judging criteria</td><td>Flavor &amp; Texture only</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<%- include('partials/footer') %>
